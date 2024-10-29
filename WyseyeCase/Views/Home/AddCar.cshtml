@@ -1,0 +1,33 @@
+﻿@model WyseyeCase.Models.Model.Car
+@{
+}
+
+<div class="text-center">
+    <h1 class="display-4" asp-area="" asp-controller="Home" asp-action="Index">Wyseye</h1>
+</div>
+
+
+<div class="container py-7">
+    <form method="post" asp-action="AddCar">
+        <div class="mb-3">
+            <label class="form-label">Make</label>
+            <input type="text" id="heading" class="form-control" asp-for="Make" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Model</label>
+            <input type="text" id="pagetitle" class="form-control" asp-for="Model" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Year</label>
+            <textarea type="text" id="content" class="form-control" asp-for="Year"></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">License Plate</label>
+            <input type="text" id="shortDescription" class="form-control" asp-for="LicensePlate" />
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-dark">Save</button>
+        </div>
+    </form>
+</div>

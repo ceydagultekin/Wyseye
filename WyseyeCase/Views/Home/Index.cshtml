@@ -1,0 +1,36 @@
+﻿@model IEnumerable<WyseyeCase.Models.Model.Car>
+
+@{
+    ViewData["Title"] = "Wyseye";
+}
+
+<div class="text-center">
+    <h1 class="display-4" asp-area="" asp-controller="Home" asp-action="Index">Wyseye</h1>
+</div>
+
+<section class="px-3 py-5">
+    <div class="text-center mb-4">
+        <a class="btn btn-dark" asp-area="" asp-controller="Home" asp-action="AddCar">Add Car</a>
+    </div>
+    @if(Model != null && Model.Any())
+    {
+        <div class="container">
+            <div class="row">
+                @foreach (var car in Model)
+                {
+                    <div class="col-6 mb-4">
+                        <div class="card">
+                            <img src="~/images/white_car.png" class="card-img-top" alt="Car Image">
+                            <div class="card-body">
+                                <h4 class="card-title">@car.Make</h4>
+                                <p class="card-text">Model: @car.Model</p>
+                                <p class="card-text">Year: @car.Year</p>
+                                <p class="card-text">License Plate: @car.LicensePlate</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</section>

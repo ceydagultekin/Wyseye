@@ -1,0 +1,33 @@
+
+networks:
+  wyseyecaseapp:
+
+services:
+  sqlserverdb:
+    container_name: sqlserver
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+     - 1433:1433   
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=WyseyeCeyda123!    
+    networks:
+      - wyseyecaseapp
+  wyseyecase:
+    container_name: wyseye-case-project
+    image: ${DOCKER_REGISTRY-}wyseyecase
+    build:
+      context: .
+      dockerfile: WyseyeCase/DockerFile
+    ports:
+    - 8001:80
+    - 8080:8080
+    - 8081:8081
+    depends_on:
+    - sqlserverdb
+    environment:
+    - DB_HOST=sqlserver
+    - DB_NAME=ceyda
+    - DB_SA_PASSWORD=WyseyeCeyda123!
+    networks:
+    - wyseyecaseapp
