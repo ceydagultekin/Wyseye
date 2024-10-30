@@ -25,4 +25,10 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="..\.dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+    </None>
+  </ItemGroup>
+
 </Project>
