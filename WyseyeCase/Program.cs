@@ -19,6 +19,7 @@ builder.Services.AddDbContext<DataContext>
 
 
 builder.Services.AddScoped<ICar,CarRepository>();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
 
 var app = builder.Build();

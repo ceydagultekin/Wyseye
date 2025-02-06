@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using WyseyeCase.Models;
 using WyseyeCase.Repository;
 using WyseyeCase.Models.Model;
+using MediatR;
+using WyseyeCase.Cqrs.Queries;
+using WyseyeCase.Cqrs.Commands;
 
 namespace WyseyeCase.Controllers
 {
@@ -13,18 +16,19 @@ namespace WyseyeCase.Controllers
 	[ApiController]
 	public class CarsController : ControllerBase
 	{
-		private readonly ICar carRepository;
+		private readonly IMediator _mediator;
 
-		public CarsController(ICar carRepository) {
-			this.carRepository = carRepository;
-		}
+        public CarsController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
-		[HttpGet]
+        [HttpGet]
 		public async Task<ActionResult> GetCars()
 		{
 			try
 			{
-				var cars = await carRepository.GetCarsAsync();
+				var cars = await _mediator.Send(new GetCarsQuery());
 				return Ok(cars);
 			}
 			catch (Exception ex)
@@ -38,7 +42,7 @@ namespace WyseyeCase.Controllers
 		{
 			try
 			{
-				var car = await carRepository.GetCarByIdAsync(id);
+				var car = await _mediator.Send(new GetCarByIdQuery(id));
 				if (car == null) return NotFound();
 				return Ok(car);
 			}
@@ -53,7 +57,7 @@ namespace WyseyeCase.Controllers
 		{
 			try
 			{
-				var newCar = await carRepository.AddCar(car);
+				var newCar = await _mediator.Send(new AddCarCommand(car));
 				return Ok(newCar);
 
 			}
@@ -69,10 +73,10 @@ namespace WyseyeCase.Controllers
 			try
 			{
 				if(id != car.Id) return BadRequest("ID uyuşmuyor , tekrar deneyiniz");
-				var existingCar = await carRepository.GetCarByIdAsync(id);
+				var existingCar = await _mediator.Send(new GetCarByIdQuery(id));
 				if(existingCar == null) return NotFound();
 
-				var updatedCar = await carRepository.UpdateCar(car);
+				var updatedCar = await _mediator.Send(new UpdateCarCommand(car));
 				return Ok(updatedCar);
 			}
 			catch
@@ -87,9 +91,9 @@ namespace WyseyeCase.Controllers
 		{
 			try
 			{
-				var car = await  carRepository.GetCarByIdAsync(id);
+				var car = await _mediator.Send(new GetCarByIdQuery(id));
 				if (car == null) return NotFound();
-				await carRepository.DeleteCar(id);
+				await _mediator.Send(new DeleteCarCommand(id));
 				return NoContent();
 
 			}
